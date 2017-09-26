@@ -1,6 +1,6 @@
 <div align="center">
 <h1>skod-scripts</h1>
-<strong>CLI for common scripts for my projects. Forked from [kcd-scripts][kcd-scripts]</strong>
+<strong>CLI for common scripts for my projects</strong>
 </div>
 
 <hr />
