@@ -13,7 +13,10 @@ module.exports = {
     // stuff I haven't gotten around to updating in my config
     'no-unused-vars': [
       'error',
-      {argsIgnorePattern: '^_', varsIgnorePattern: '^ignored'},
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^ignored',
+      },
     ],
     'func-style': 'off',
     'no-process-exit': 'off',

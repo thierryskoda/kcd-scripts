@@ -7,7 +7,7 @@ const [executor, ...args] = process.argv
 const lintStagedResult = spawn.sync(
   executor,
   [require.resolve('./lint-staged')].concat(args),
-  {stdio: 'inherit'},
+  {stdio: 'inherit'}
 )
 
 if (lintStagedResult.status !== 0 || !isOptedIntoValidate()) {

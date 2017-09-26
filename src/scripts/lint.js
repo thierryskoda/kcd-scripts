@@ -1,7 +1,7 @@
 const path = require('path')
 const spawn = require('cross-spawn')
 const yargsParser = require('yargs-parser')
-const {hasPkgProp, resolveBin, hasFile} = require('../utils')
+const {hasPkgProp, resolveBin, hasFile, ifInPackageJson} = require('../utils')
 
 let args = process.argv.slice(2)
 const here = p => path.join(__dirname, p)
@@ -10,7 +10,9 @@ const parsedArgs = yargsParser(args)
 const useBuiltinConfig =
   !args.includes('--config') &&
   !hasFile('.eslintrc') &&
-  !hasPkgProp('eslintConfig')
+  !hasPkgProp('eslintConfig') &&
+  !ifInPackageJson('eslintConfig')
+
 const config = useBuiltinConfig
   ? ['--config', here('../config/eslintrc.js')]
   : []
@@ -19,6 +21,7 @@ const useBuiltinIgnore =
   !args.includes('--ignore-path') &&
   !hasFile('.eslintignore') &&
   !hasPkgProp('eslintIgnore')
+!ifInPackageJson('eslintIgnore')
 
 const ignore = useBuiltinIgnore
   ? ['--ignore-path', here('../config/eslintignore')]
@@ -40,7 +43,7 @@ if (filesGiven) {
 const result = spawn.sync(
   resolveBin('eslint'),
   [...config, ...ignore, ...cache, ...filesToApply, ...args],
-  {stdio: 'inherit'},
+  {stdio: 'inherit'}
 )
 
 process.exit(result.status)

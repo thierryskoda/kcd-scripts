@@ -45,6 +45,9 @@ const ifDevDep = ifPkgSubProp('devDependencies')
 const ifAnyDep = (deps, t, f) => (hasAnyDep(deps) ? t : f)
 const ifScript = ifPkgSubProp('scripts')
 
+const packageJsonFile = require(`${fromRoot()}/package.json`)
+const ifInPackageJson = field => packageJsonFile[field]
+
 function parseEnv(name, def) {
   if (process.env.hasOwnProperty(name)) {
     return JSON.parse(process.env[name])
@@ -67,7 +70,7 @@ function getConcurrentlyArgs(scripts) {
     .reduce(
       (pColors, _s, i) =>
         pColors.concat([`${colors[i % colors.length]}.bold.reset`]),
-      [],
+      []
     )
     .join(',')
 
@@ -87,6 +90,7 @@ module.exports = {
   ifScript,
   ifDep,
   ifAnyDep,
+  ifInPackageJson,
   hasPkgProp,
   appDirectory,
   fromRoot,

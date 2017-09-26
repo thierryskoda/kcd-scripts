@@ -19,7 +19,9 @@ const cosmiconfigPath = resolve.sync('cosmiconfig', {
 // config so folks don't have to have that in their package.json
 function fakeCosmiconfig(...args) {
   if (args[0] === 'lint-staged') {
-    return Promise.resolve({config: require('../../config/lintstagedrc')})
+    return Promise.resolve({
+      config: require('../../config/lintstagedrc'),
+    })
   } else {
     return require(cosmiconfigPath)(...args)
   }

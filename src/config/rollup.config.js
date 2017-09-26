@@ -19,7 +19,7 @@ const isNode = parseEnv('BUILD_NODE', false)
 const name = process.env.BUILD_NAME || capitalize(camelcase(pkg.name))
 
 const defaultGlobals = Object.keys(
-  pkg.peerDependencies || {},
+  pkg.peerDependencies || {}
 ).reduce((deps, dep) => {
   deps[dep] = capitalize(camelcase(dep))
   return deps
@@ -36,11 +36,11 @@ const filenamePrefix =
   process.env.BUILD_FILENAME_PREFIX || isPreact ? 'preact/' : ''
 const globals = parseEnv(
   'BUILD_GLOBALS',
-  isPreact ? Object.assign(defaultGlobals, {preact: 'preact'}) : defaultGlobals,
+  isPreact ? Object.assign(defaultGlobals, {preact: 'preact'}) : defaultGlobals
 )
 const external = parseEnv(
   'BUILD_EXTERNAL',
-  isPreact ? defaultExternal.concat(['preact', 'prop-types']) : defaultExternal,
+  isPreact ? defaultExternal.concat(['preact', 'prop-types']) : defaultExternal
 ).filter((e, i, arry) => arry.indexOf(e) === i)
 
 if (isPreact) {
@@ -62,7 +62,7 @@ const filename = [
   .join('')
 
 const filepath = path.join(
-  ...[filenamePrefix, 'dist', filename].filter(Boolean),
+  ...[filenamePrefix, 'dist', filename].filter(Boolean)
 )
 
 const output = [{file: filepath, format: esm ? 'es' : format}]
@@ -80,7 +80,11 @@ module.exports = {
   plugins: [
     isNode ? nodeBuiltIns() : null,
     isNode ? nodeGlobals() : null,
-    nodeResolve({preferBuiltins: isNode, jsnext: true, main: true}),
+    nodeResolve({
+      preferBuiltins: isNode,
+      jsnext: true,
+      main: true,
+    }),
     commonjs({include: 'node_modules/**'}),
     json(),
     rollupBabel({

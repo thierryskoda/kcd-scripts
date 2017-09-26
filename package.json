@@ -1,5 +1,5 @@
 {
-  "name": "kcd-scripts",
+  "name": "skod-scripts",
   "version": "0.0.0-semantically-released",
   "description": "CLI for common scripts for my projects",
   "engines": {
@@ -7,7 +7,7 @@
     "npm": ">= 5"
   },
   "bin": {
-    "kcd-scripts": "dist/index.js"
+    "skod-scripts": "dist/index.js"
   },
   "scripts": {
     "add-contributor": "node src contributors add",
@@ -16,11 +16,12 @@
     "build": "node src build",
     "lint": "node src lint",
     "validate": "node src validate",
-    "precommit": "node src precommit"
+    "precommit": "node src precommit",
+    "format": "node src format"
   },
   "files": ["dist", "babel.js", "eslint.js", "config.js"],
   "keywords": [],
-  "author": "Kent C. Dodds <kent@doddsfamily.us> (http://kentcdodds.com/)",
+  "author": "Thierry Skoda",
   "license": "MIT",
   "dependencies": {
     "all-contributors-cli": "^4.3.0",
@@ -67,12 +68,21 @@
     "rollup-watch": "^4.3.1",
     "yargs-parser": "^7.0.0"
   },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": false,
+    "printWidth": 80,
+    "tabWidth": 2
+  },
+  "eslintIgnore": ["node_modules", "coverage", "dist"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/kentcdodds/kcd-scripts.git"
+    "url": "https://github.com/thierryskoda/skod-scripts.git"
   },
   "bugs": {
-    "url": "https://github.com/kentcdodds/kcd-scripts/issues"
+    "url": "https://github.com/thierryskoda/skod-scripts/issues"
   },
-  "homepage": "https://github.com/kentcdodds/kcd-scripts#readme"
+  "homepage": "https://github.com/thierryskoda/skod-scripts#readme"
 }

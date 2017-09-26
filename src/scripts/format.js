@@ -1,7 +1,7 @@
 const path = require('path')
 const spawn = require('cross-spawn')
 const yargsParser = require('yargs-parser')
-const {hasPkgProp, resolveBin, hasFile} = require('../utils')
+const {hasPkgProp, resolveBin, hasFile, ifInPackageJson} = require('../utils')
 
 const args = process.argv.slice(2)
 const parsedArgs = yargsParser(args)
@@ -11,7 +11,9 @@ const here = p => path.join(__dirname, p)
 const useBuiltinConfig =
   !args.includes('--config') &&
   !hasFile('.prettierrc') &&
-  !hasPkgProp('prettierrc')
+  !hasPkgProp('prettierrc') &&
+  !ifInPackageJson('prettier')
+
 const config = useBuiltinConfig
   ? ['--config', here('../config/prettierrc.js')]
   : []
@@ -34,7 +36,7 @@ const filesToApply = parsedArgs._.length ? [] : ['**/*.js']
 const result = spawn.sync(
   resolveBin('prettier'),
   [...config, ...ignore, ...write, ...filesToApply].concat(relativeArgs),
-  {stdio: 'inherit'},
+  {stdio: 'inherit'}
 )
 
 process.exit(result.status)

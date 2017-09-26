@@ -35,7 +35,7 @@ const scripts = useDefaultScripts
 const result = spawn.sync(
   resolveBin('concurrently'),
   getConcurrentlyArgs(scripts),
-  {stdio: 'inherit'},
+  {stdio: 'inherit'}
 )
 
 process.exit(result.status)
