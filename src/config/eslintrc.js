@@ -5,8 +5,6 @@ module.exports = {
     require.resolve('eslint-config-kentcdodds'),
     ifAnyDep('react', require.resolve('eslint-config-kentcdodds/jsx-a11y')),
     ifAnyDep('react', require.resolve('eslint-config-kentcdodds/react')),
-    require.resolve('eslint-config-kentcdodds/jsx-a11y'),
-    require.resolve('eslint-config-kentcdodds/react'),
   ].filter(Boolean),
   rules: {
     'no-unused-vars': [
