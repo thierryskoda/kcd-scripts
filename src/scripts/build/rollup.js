@@ -90,10 +90,10 @@ function getPReactScripts() {
 }
 
 function prefixKeys(prefix, object) {
-  return Object.entries(object).reduce((cmds, [key, value]) => {
-    cmds[`${prefix}${key}`] = value
-    return cmds
-  }, {})
+  return Object.entries(object).reduce((cmds, [key, value]) => ({
+    ...cmds,
+    [`${prefix}${key}`]: value,
+  }), {})
 }
 
 function getCommands(env = '') {
@@ -101,10 +101,12 @@ function getCommands(env = '') {
     const [formatName, minify = false] = format.split('.')
     const nodeEnv = minify ? 'production' : 'development'
     const buildMinify = Boolean(minify)
-    cmds[format] = getCommand(
-      `BUILD_FORMAT=${formatName} BUILD_MINIFY=${buildMinify} NODE_ENV=${nodeEnv} ${env}`,
-    )
-    return cmds
+    return {
+      ...cmds,
+      [format]: getCommand(
+        `BUILD_FORMAT=${formatName} BUILD_MINIFY=${buildMinify} NODE_ENV=${nodeEnv} ${env}`,
+      )
+    }
   }, {})
 }
 

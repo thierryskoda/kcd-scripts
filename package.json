@@ -1,6 +1,6 @@
 {
   "name": "skod-scripts",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "CLI for common scripts for my projects",
   "engines": {
     "node": ">= 8",

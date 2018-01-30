@@ -9,6 +9,7 @@ const treeshake = parseEnv('BUILD_TREESHAKE', isRollup || isWebpack)
 const alias = parseEnv('BUILD_ALIAS', isPreact ? {react: 'preact'} : null)
 
 const envModules = treeshake ? {modules: false} : {}
+
 const envTargets = isTest
   ? {node: 'current'}
   : isWebpack || isRollup ? {browsers: ['ie 10', 'ios 7']} : {node: '4.5'}

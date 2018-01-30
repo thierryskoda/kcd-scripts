@@ -19,5 +19,11 @@ module.exports = {
     'no-process-exit': 'off',
     'comma-dangle': 'off',
     'no-else-return': 'off',
+    'global-require': 'off',
+    'no-use-before-define': 'off',
+    'no-console': 'off',
+    'import/no-dynamic-require': 'off',
+    'no-prototype-builtins': 'off',
+    'no-nested-ternary': 'off',
   },
 }

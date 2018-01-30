@@ -20,8 +20,8 @@ const config = useBuiltinConfig
 const useBuiltinIgnore =
   !args.includes('--ignore-path') &&
   !hasFile('.eslintignore') &&
-  !hasPkgProp('eslintIgnore')
-!ifInPackageJson('eslintIgnore')
+  !hasPkgProp('eslintIgnore') &&
+  !ifInPackageJson('eslintIgnore')
 
 const ignore = useBuiltinIgnore
   ? ['--ignore-path', here('../config/eslintignore')]
@@ -43,7 +43,7 @@ if (filesGiven) {
 const result = spawn.sync(
   resolveBin('eslint'),
   [...config, ...ignore, ...cache, ...filesToApply, ...args],
-  {stdio: 'inherit'}
+  {stdio: 'inherit'},
 )
 
 process.exit(result.status)
