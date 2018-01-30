@@ -2,10 +2,11 @@ const {ifAnyDep} = require('../utils')
 
 module.exports = {
   extends: [
-    require.resolve('eslint-config-airbnb'),
-    ifAnyDep('react', require.resolve('eslint-plugin-jsx-a11y')),
-    ifAnyDep('react', require.resolve('eslint-plugin-react')),
-    require.resolve('eslint-config-prettier'),
+    require.resolve('eslint-config-kentcdodds'),
+    ifAnyDep('react', require.resolve('eslint-config-kentcdodds/jsx-a11y')),
+    ifAnyDep('react', require.resolve('eslint-config-kentcdodds/react')),
+    require.resolve('eslint-config-kentcdodds/jsx-a11y'),
+    require.resolve('eslint-config-kentcdodds/react'),
   ].filter(Boolean),
   rules: {
     'no-unused-vars': [
@@ -25,5 +26,6 @@ module.exports = {
     'import/no-dynamic-require': 'off',
     'no-prototype-builtins': 'off',
     'no-nested-ternary': 'off',
+    'import/no-unassigned-import': 'off',
   },
 }
