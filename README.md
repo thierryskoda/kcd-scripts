@@ -1,120 +1,76 @@
-<div align="center">
-<h1>skod-scripts</h1>
-<strong>CLI for common scripts for my projects</strong>
-</div>
+<h1 align="center">
+  skod-scripts
+</h1>
 
-<hr />
 
-[![Build Status][build-badge]][build]
-[![Code Coverage][coverage-badge]][coverage]
-[![version][version-badge]][package]
-[![downloads][downloads-badge]][npmcharts]
-[![MIT License][license-badge]][LICENSE]
+<p align="center">Handle node projects development tasks with no configuration.</p>
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
-[![PRs Welcome][prs-badge]][prs]
-[![Code of Conduct][coc-badge]][coc]
+## Install
 
-[![Watch on GitHub][github-watch-badge]][github-watch]
-[![Star on GitHub][github-star-badge]][github-star]
-[![Tweet][twitter-badge]][twitter]
-
-<a href="https://app.codesponsor.io/link/PKGFLnhDiFvsUA5P4kAXfiPs/kentcdodds/skod-scripts" rel="nofollow"><img src="https://app.codesponsor.io/embed/PKGFLnhDiFvsUA5P4kAXfiPs/kentcdodds/skod-scripts.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
-
-## The problem
-
-I do a bunch of open source and want to make it easier to maintain so many
-projects.
-
-## This solution
-
-This is a CLI that abstracts away all configuration for my open source projects
-for linting, testing, building, and more.
-
-## Installation
-
-This module is distributed via [npm][npm] which is bundled with [node][node] and
-should be installed as one of your project's `devDependencies`:
-
+```bash
+$ yarn add --dev skod-scripts
 ```
-npm install --save-dev skod-scripts
-```
+
+> **NOTE**: it includes all the dependencies (prettier, jest, eslint, etc) so you don't have to install them.
 
 ## Usage
 
-This is a CLI and exposes a bin called `skod-scripts`. I don't really plan on
-documenting or testing it super duper well because it's really specific to my
-needs. You'll find all available scripts in `src/scripts`.
+`skod-scripts` exposes a series of scripts to handle development tasks. 
 
-This project actually dogfoods itself. If you look in the `package.json`, you'll
-find scripts with `node src {scriptName}`. This serves as an example of some
-of the things you can do with `skod-scripts`.
-
-### Overriding Config
-
-Unlike `react-scripts`, `skod-scripts` allows you to specify your own
-configuration for things and have that plug directly into the way things work
-with `skod-scripts`. There are various ways that it works, but basically if you
-want to have your own config for something, just add the configuration and
-`skod-scripts` will use that instead of it's own internal config. In addition,
-`skod-scripts` exposes its configuration so you can use it and override only
-the parts of the config you need to.
-
-This can be a very helpful way to make editor integration work for tools like
-ESLint which require project-based ESLint configuration to be present to work.
-
-So, if we were to do this for ESLint, you could create an `.eslintrc` with the
-contents of:
-
-```
-{"extends": "./node_modules/skod-scripts/eslint.js"}
+```bash
+$ skod-scripts [script] [options]
 ```
 
-> Note: for now, you'll have to include an `.eslintignore` in your project until
-> [this eslint issue is resolved](https://github.com/eslint/eslint/issues/9227).
+### Available scripts
 
-Or, for `babel`, a `.babelrc` with:
+#### `init`
 
+Adds the available scripts to the project's `package.json`. 
+
+> **WARNING**: it will override anything you have in the properties `test`, `lint` and `format` of the `scripts` field.
+
+#### `format`
+
+Runs prettier on write mode.
+
+#### `lint`
+
+Runs ESLint with `--cache` flag, you can override that with `--no-cache`.
+
+Since ESLint editor integrations require project based configuration to work a local `eslintrc` is needed, for that you can use [`eslint-config-d`](https://github.com/trae/eslint-config-d).
+
+```json
+{
+  "extends": [
+    "d"
+  ]
+}
 ```
-{"presets": ["skod-scripts/babel"]}
-```
 
-Or, for `jest`:
+> **NOTE**: a `.eslintignore` is required until [this eslint issue is resolved](https://github.com/eslint/eslint/issues/9227).
 
-```javascript
-const {jest: jestConfig} = require('skod-scripts/config')
-module.exports = Object.assign(jestConfig, {
-  // your overrides here
-})
-```
+#### `test`
+
+Runs Jest. By default it runs in watch mode unless you are checking coverage (`--coverage`), used the `--no-watch` flag or is running in CI (checked by [`is-ci`](https://github.com/watson/is-ci)).
+
+## Configuration
+
+`skod-scripts` provides an opinionated set of configurations. But all of it can be overridden by adding your own. `skod-scripts` will use the configuration files (or `package.json` property) for each tool if present. The default configuration can be found [here](https://github.com/gillchristian/skod-scripts/blob/master/config).
+ 
+## TODO
+
+- `precommit` hook to format and lint code.
+- Run (lint, format) with the provided list of files instead of the default ones.
+- Forward options & flags to the scripts.
+
+## Inspiration
+
+`skod-scripts` is our take to provide "tools without config". It was strongly inspired by [@kentcdodds](https://github.com/kentcdodds/)'s version [`kcskod-scripts`](https://github.com/kentcdodds/kcskod-scripts).
+
+- `react-scripts` from [`create-react-app`](https://github.com/facebookincubator/create-react-app).
+- [Dan Abramov - The Melting Pot of JavaScript](https://www.youtube.com/watch?v=G39lKaONAlA&feature=youtu.be).
+- [Tools without config 🛠📦](https://blog.kentcdodds.com/automation-without-config-412ab5e47229) by [@kentcdodds](https://github.com/kentcdodds/).
 
 ## LICENSE
 
 MIT
-
-[kcd-scripts]: https://github.com/kentcdodds/kcd-scripts
-[npm]: https://www.npmjs.com/
-[node]: https://nodejs.org
-[build-badge]: https://img.shields.io/travis/kentcdodds/skod-scripts.svg?style=flat-square
-[build]: https://travis-ci.org/kentcdodds/skod-scripts
-[coverage-badge]: https://img.shields.io/codecov/c/github/kentcdodds/skod-scripts.svg?style=flat-square
-[coverage]: https://codecov.io/github/kentcdodds/skod-scripts
-[version-badge]: https://img.shields.io/npm/v/skod-scripts.svg?style=flat-square
-[package]: https://www.npmjs.com/package/skod-scripts
-[downloads-badge]: https://img.shields.io/npm/dm/skod-scripts.svg?style=flat-square
-[npmcharts]: http://npmcharts.com/compare/skod-scripts
-[license-badge]: https://img.shields.io/npm/l/skod-scripts.svg?style=flat-square
-[license]: https://github.com/kentcdodds/skod-scripts/blob/master/LICENSE
-[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
-[prs]: http://makeapullrequest.com
-[donate-badge]: https://img.shields.io/badge/$-support-green.svg?style=flat-square
-[coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
-[coc]: https://github.com/kentcdodds/skod-scripts/blob/master/other/CODE_OF_CONDUCT.md
-[github-watch-badge]: https://img.shields.io/github/watchers/kentcdodds/skod-scripts.svg?style=social
-[github-watch]: https://github.com/kentcdodds/skod-scripts/watchers
-[github-star-badge]: https://img.shields.io/github/stars/kentcdodds/skod-scripts.svg?style=social
-[github-star]: https://github.com/kentcdodds/skod-scripts/stargazers
-[twitter]: https://twitter.com/intent/tweet?text=Check%20out%20skod-scripts!%20https://github.com/kentcdodds/skod-scripts%20%F0%9F%91%8D
-[twitter-badge]: https://img.shields.io/twitter/url/https/github.com/kentcdodds/skod-scripts.svg?style=social
-[emojis]: https://github.com/kentcdodds/all-contributors#emoji-key
-[all-contributors]: https://github.com/kentcdodds/all-contributors

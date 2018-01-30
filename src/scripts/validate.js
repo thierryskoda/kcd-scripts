@@ -19,23 +19,26 @@ const scripts = useDefaultScripts
   ? Object.entries({
       build: 'npm run build --silent',
       lint: precommit ? null : 'npm run lint --silent',
-      test: precommit ? null : 'npm run test --silent -- --coverage',
       flow: 'npm run flow --silent',
-    }).reduce((scriptsToRun, [name, script]) => {
-      if (script && hasScript(name)) {
-        scriptsToRun[name] = script
-      }
-      return scriptsToRun
-    }, {})
-  : validateScripts.split(',').reduce((scriptsToRun, name) => {
-      scriptsToRun[name] = `npm run ${name} --silent`
-      return scriptsToRun
-    }, {})
+    }).reduce(
+      (scriptsToRun, [name, script]) => ({
+        ...scriptsToRun,
+        ...(script && hasScript(name) ? {[name]: script} : null),
+      }),
+      {},
+    )
+  : validateScripts.split(',').reduce(
+      (scriptsToRun, name) => ({
+        ...scriptsToRun,
+        [name]: `npm run ${name} --silent`,
+      }),
+      {},
+    )
 
 const result = spawn.sync(
   resolveBin('concurrently'),
   getConcurrentlyArgs(scripts),
-  {stdio: 'inherit'}
+  {stdio: 'inherit'},
 )
 
 process.exit(result.status)
